@@ -10,10 +10,10 @@ class UsersTable extends React.Component {
         };
     }
   
-  setUser(e) {
-    e.preventDefault();
-    this.props.addUser(this.state.newUser)
-  }
+    setUser(e) {
+        e.preventDefault();
+        this.props.addUser(this.state.newUser)
+    }
 
     render() {
         const { usersTable } = this.props;
