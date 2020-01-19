@@ -9,4 +9,4 @@ Add new item to list name.
 - `$ npm install --save next`
 - `$ npm install`
 - `$ npm run build`
-- `$ npm start`
+- `$ npm run dev`
