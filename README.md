@@ -6,6 +6,7 @@ Add new item to list name.
 
 - git clone repository
 - go to app folder
+- `$ npm install --save next`
 - `$ npm install`
 - `$ npm run build`
 - `$ npm start`
