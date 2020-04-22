@@ -1,11 +1,11 @@
-import React from 'react'
-import { withRedux } from '../src/redux'
-import UsersTable from '../components/usersTable'
+import React from 'react';
+import { withRedux } from '../src/redux';
+import NewsBoard from '../components/newsBoard';
 
 const Home = () => (
   <>
-    <UsersTable />
+    <NewsBoard />
   </>
-)
+);
 
-export default withRedux(Home)
+export default withRedux(Home);
