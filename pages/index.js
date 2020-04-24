@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRedux } from '../src/redux';
-import NewsBoard from '../components/newsBoard';
+import InfoBoard from '../components/infoBoard';
 
 const Home = () => (
   <>
-    <NewsBoard />
+    <InfoBoard />
   </>
 );
 
