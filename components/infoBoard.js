@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { addInfo } from '../src/actions';
+import { getInfo, addInfo } from '../src/actions';
 
 class InfoBoard extends React.Component {
   state = {
@@ -13,14 +12,7 @@ class InfoBoard extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get('http://localhost:4001/')
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getInfo();
   }
 
   handleInputChange = (e) => {
@@ -42,6 +34,7 @@ class InfoBoard extends React.Component {
 
   render() {
     const { news } = this.props;
+    console.log(this.props);
 
     return (
       <>
@@ -97,6 +90,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   addInfo: (value) => {
     dispatch(addInfo(value));
+  },
+  getInfo: () => {
+    dispatch(getInfo());
   },
 });
 

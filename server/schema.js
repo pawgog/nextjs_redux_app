@@ -6,7 +6,16 @@ let userSchema = new Schema(
     name: {
       type: String,
     },
-    surname: {
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    date: {
+      type: String,
+    },
+    image: {
       type: String,
     },
   },
