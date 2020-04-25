@@ -1,16 +1,35 @@
-import { GET_INFO, ADD_INFO } from './actions';
+import {
+  FETCH_INFO_PENDING,
+  FETCH_INFO_SUCCESS,
+  FETCH_INFO_ERROR,
+  ADD_INFO,
+} from './actions';
 
 const reducer = (state = [], action) => {
   switch (action.type) {
-    case GET_INFO:
+    case FETCH_INFO_PENDING:
       return {
         ...state,
-        news: [...action.payload.data],
+        pending: true,
+      };
+    case FETCH_INFO_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        news: action.payload,
+      };
+    case FETCH_INFO_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: action.error,
       };
     case ADD_INFO:
+      console.log(state, action);
+
       return {
         ...state,
-        usersTable: [...state.usersTable, action.name],
+        news: [...state.name, action.name],
       };
     default:
       return state;
@@ -18,3 +37,7 @@ const reducer = (state = [], action) => {
 };
 
 export default reducer;
+
+export const getInfo = (state) => state.news;
+export const getInfoPending = (state) => state.pending;
+export const getInfoError = (state) => state.error;

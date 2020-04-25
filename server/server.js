@@ -11,10 +11,13 @@ const userRoute = require('./router');
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(`mongodb://peter:test1234@ds135619.mlab.com:35619/heroku_lw3qz09s`, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  })
+  .connect(
+    `mongodb://${process.env.REACT_APP_DB_USER}:${process.env.REACT_APP_DB_PASS}@ds135619.mlab.com:35619/${process.env.REACT_APP_DB_HOST}`,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }
+  )
   .then(() => console.log('DB Connected'))
   .catch((err) => {
     console.log(`DB Connection Error: ${err.message}`);

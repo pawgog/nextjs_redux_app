@@ -1,25 +1,26 @@
 import axios from 'axios';
 
-export const GET_INFO = 'GET_INFO';
+export const FETCH_INFO_PENDING = 'FETCH_INFO_PENDING';
+export const FETCH_INFO_SUCCESS = 'FETCH_INFO_SUCCESS';
+export const FETCH_INFO_ERROR = 'FETCH_INFO_ERROR';
 export const ADD_INFO = 'ADD_INFO';
 
-export const getInfo = () => (dispatch) => {
-  dispatch({ type: GET_INFO });
-
-  return axios
-    .get('http://localhost:4001/', {})
-    .then(({ data }) => {
-      console.log(data);
-      dispatch({
-        type: GET_INFO,
-        payload: {
-          data,
-        },
+export const fetchInfo = () => {
+  return (dispatch) => {
+    dispatch(fetchInfoPending());
+    axios
+      .get('http://localhost:4001/')
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
+        }
+        dispatch(fetchInfoSuccess(res.data));
+        return res.data;
+      })
+      .catch((err) => {
+        dispatch(fetchInfoError(err));
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  };
 };
 
 export const addInfo = (info) => {
@@ -33,3 +34,23 @@ export const addInfo = (info) => {
     },
   };
 };
+
+function fetchInfoPending() {
+  return {
+    type: FETCH_INFO_PENDING,
+  };
+}
+
+function fetchInfoSuccess(info) {
+  return {
+    type: FETCH_INFO_SUCCESS,
+    payload: info,
+  };
+}
+
+function fetchInfoError(error) {
+  return {
+    type: FETCH_INFO_ERROR,
+    error: error,
+  };
+}

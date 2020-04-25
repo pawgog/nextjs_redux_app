@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getInfo, addInfo } from '../src/actions';
+import { bindActionCreators } from 'redux';
+import { fetchInfo, addInfo } from '../src/actions';
+import { getInfoError, getInfo, getInfoPending } from '../src/reducer';
+import NewsBoard from './newsBoard';
 
 class InfoBoard extends React.Component {
   state = {
@@ -12,7 +15,8 @@ class InfoBoard extends React.Component {
   };
 
   componentDidMount() {
-    getInfo();
+    const { fetchInfo } = this.props;
+    fetchInfo();
   }
 
   handleInputChange = (e) => {
@@ -23,7 +27,7 @@ class InfoBoard extends React.Component {
 
   addInfo = (e) => {
     e.preventDefault();
-    this.props.addNews({
+    this.props.addInfo({
       name: this.state.name,
       title: this.state.title,
       description: this.state.description,
@@ -34,13 +38,10 @@ class InfoBoard extends React.Component {
 
   render() {
     const { news } = this.props;
-    console.log(this.props);
 
     return (
       <>
-        {news.map((name, index) => (
-          <p key={index}>{name}</p>
-        ))}
+        <NewsBoard news={news} />
         <form className="add-info-form" onSubmit={this.addInfo}>
           <label htmlFor="name">Full name</label>
           <input
@@ -81,19 +82,19 @@ class InfoBoard extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
-
-  return { news: state.news };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  addInfo: (value) => {
-    dispatch(addInfo(value));
-  },
-  getInfo: () => {
-    dispatch(getInfo());
-  },
+const mapStateToProps = (state) => ({
+  error: getInfoError(state),
+  news: getInfo(state),
+  pending: getInfoPending(state),
 });
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addInfo,
+      fetchInfo,
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(InfoBoard);
