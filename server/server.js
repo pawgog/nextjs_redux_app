@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 
-const PORT = 4001;
+require('dotenv').config();
+
 const app = express();
 app.use(cors());
 
@@ -12,7 +13,7 @@ const userRoute = require('./router');
 mongoose.Promise = global.Promise;
 mongoose
   .connect(
-    `mongodb://${process.env.REACT_APP_DB_USER}:${process.env.REACT_APP_DB_PASS}@ds135619.mlab.com:35619/${process.env.REACT_APP_DB_HOST}`,
+    `mongodb://${process.env.NEXT_DB_USER}:${process.env.NEXT_DB_PASS}@ds135619.mlab.com:35619/${process.env.NEXT_DB_HOST}`,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,
@@ -32,8 +33,8 @@ app.use(
 app.use(cors());
 app.use('/', userRoute);
 
-const server = app.listen(PORT, () => {
-  console.log('Connected to port ' + PORT);
+const server = app.listen(process.env.PORT, () => {
+  console.log('Connected to port ' + process.env.PORT);
 });
 
 app.use((req, res, next) => {
