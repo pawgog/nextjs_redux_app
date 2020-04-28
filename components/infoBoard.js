@@ -12,12 +12,19 @@ class InfoBoard extends React.Component {
     description: '',
     date: '',
     image: '',
+    openForm: false,
   };
 
   componentDidMount() {
     const { fetchInfo } = this.props;
     fetchInfo();
   }
+
+  handleForm = () => {
+    this.setState((prevState) => ({
+      openForm: !prevState.openForm,
+    }));
+  };
 
   handleInputChange = (e) => {
     this.setState({
@@ -42,41 +49,50 @@ class InfoBoard extends React.Component {
     return (
       <>
         <NewsBoard news={news} />
-        <form className="add-info-form" onSubmit={this.addInfo}>
-          <label htmlFor="name">Full name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleInputChange}
-          />
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={this.state.title}
-            onChange={this.handleInputChange}
-          />
-          <label htmlFor="description">News description</label>
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleInputChange}
-          />
-          <label htmlFor="image">Image URL</label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={this.state.image}
-            onChange={this.handleInputChange}
-          />
-          <button type="submit">Add news</button>
-        </form>
+        <button onClick={this.handleForm}>+</button>
+        <div
+          className={
+            this.state.openForm
+              ? 'board-info-form--open'
+              : 'board-info-form--close'
+          }
+        >
+          <form className="add-info-form" onSubmit={this.addInfo}>
+            <label htmlFor="name">Full name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleInputChange}
+            />
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={this.state.title}
+              onChange={this.handleInputChange}
+            />
+            <label htmlFor="description">News description</label>
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              value={this.state.description}
+              onChange={this.handleInputChange}
+            />
+            <label htmlFor="image">Image URL</label>
+            <input
+              type="text"
+              id="image"
+              name="image"
+              value={this.state.image}
+              onChange={this.handleInputChange}
+            />
+            <button type="submit">Add news</button>
+          </form>
+        </div>
       </>
     );
   }
