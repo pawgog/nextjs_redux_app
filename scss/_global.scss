@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Port+Lligat+Slab&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Port Lligat Slab', serif;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: #888;
+  color: #fefefe;
+
+  &:focus {
+    outline: none;
+  }
+}

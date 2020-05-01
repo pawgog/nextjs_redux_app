@@ -63,7 +63,12 @@ class InfoBoard extends React.Component {
         ) : (
           <>
             <NewsBoard news={news} />
-            <button onClick={this.handleForm}>+</button>
+            <button
+              className="board-info-form__btn-add"
+              onClick={this.handleForm}
+            >
+              +
+            </button>
             <div
               className={
                 this.state.openForm
@@ -81,14 +86,6 @@ class InfoBoard extends React.Component {
                 >
                   X
                 </button>
-                <label htmlFor="name">Full name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
-                />
                 <label htmlFor="title">Title</label>
                 <input
                   type="text"
@@ -102,7 +99,16 @@ class InfoBoard extends React.Component {
                   type="text"
                   id="description"
                   name="description"
+                  rows="10"
                   value={this.state.description}
+                  onChange={this.handleInputChange}
+                />
+                <label htmlFor="name">Author Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={this.state.name}
                   onChange={this.handleInputChange}
                 />
                 <label htmlFor="image">Image URL</label>
