@@ -20,7 +20,8 @@ class InfoBoard extends React.Component {
     fetchInfo();
   }
 
-  handleForm = () => {
+  handleForm = (e) => {
+    e.preventDefault();
     this.setState((prevState) => ({
       openForm: !prevState.openForm,
     }));
@@ -44,55 +45,81 @@ class InfoBoard extends React.Component {
   };
 
   render() {
-    const { news } = this.props;
+    const { news, pending } = this.props;
 
     return (
       <>
-        <NewsBoard news={news} />
-        <button onClick={this.handleForm}>+</button>
-        <div
-          className={
-            this.state.openForm
-              ? 'board-info-form--open'
-              : 'board-info-form--close'
-          }
-        >
-          <form className="add-info-form" onSubmit={this.addInfo}>
-            <label htmlFor="name">Full name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleInputChange}
-            />
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleInputChange}
-            />
-            <label htmlFor="description">News description</label>
-            <textarea
-              type="text"
-              id="description"
-              name="description"
-              value={this.state.description}
-              onChange={this.handleInputChange}
-            />
-            <label htmlFor="image">Image URL</label>
-            <input
-              type="text"
-              id="image"
-              name="image"
-              value={this.state.image}
-              onChange={this.handleInputChange}
-            />
-            <button type="submit">Add news</button>
-          </form>
-        </div>
+        {pending ? (
+          <div className="board-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        ) : (
+          <>
+            <NewsBoard news={news} />
+            <button onClick={this.handleForm}>+</button>
+            <div
+              className={
+                this.state.openForm
+                  ? 'board-info-form board-info-form--open'
+                  : 'board-info-form board-info-form--close'
+              }
+            >
+              <form
+                className="board-info-form__content"
+                onSubmit={this.addInfo}
+              >
+                <button
+                  className="board-info-form__btn-close"
+                  onClick={this.handleForm}
+                >
+                  X
+                </button>
+                <label htmlFor="name">Full name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={this.state.name}
+                  onChange={this.handleInputChange}
+                />
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleInputChange}
+                />
+                <label htmlFor="description">News description</label>
+                <textarea
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={this.state.description}
+                  onChange={this.handleInputChange}
+                />
+                <label htmlFor="image">Image URL</label>
+                <input
+                  type="text"
+                  id="image"
+                  name="image"
+                  value={this.state.image}
+                  onChange={this.handleInputChange}
+                />
+                <button className="board-info-form__btn-submit" type="submit">
+                  Add news
+                </button>
+              </form>
+            </div>
+          </>
+        )}
       </>
     );
   }

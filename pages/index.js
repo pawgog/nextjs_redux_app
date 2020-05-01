@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRedux } from '../src/redux';
-import '../scss/styles.scss';
+import '../scss/_index.scss';
 import InfoBoard from '../components/infoBoard';
 
 const Home = () => (
