@@ -12,6 +12,9 @@ let userSchema = new Schema(
     description: {
       type: String,
     },
+    category: {
+      type: String,
+    },
     date: {
       type: String,
     },
@@ -20,8 +23,8 @@ let userSchema = new Schema(
     },
   },
   {
-    collection: 'news',
+    collection: 'info',
   }
 );
 
-module.exports = mongoose.model('News', userSchema);
+module.exports = mongoose.model('Info', userSchema);

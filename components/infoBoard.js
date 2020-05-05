@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchInfo, addInfo } from '../src/actions';
 import { getInfoError, getInfo, getInfoPending } from '../src/reducer';
+import Spinner from './spinner';
+import SelectCategory from './selectCategory';
+import FormBoard from './formBoard';
 import NewsBoard from './newsBoard';
 
 class InfoBoard extends React.Component {
@@ -10,6 +13,7 @@ class InfoBoard extends React.Component {
     name: '',
     title: '',
     description: '',
+    category: 'all',
     date: '',
     image: '',
     openForm: false,
@@ -27,9 +31,15 @@ class InfoBoard extends React.Component {
     }));
   };
 
-  handleInputChange = (e) => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  };
+
+  selectCategory = (category) => {
+    this.setState({
+      category,
     });
   };
 
@@ -45,85 +55,22 @@ class InfoBoard extends React.Component {
   };
 
   render() {
-    const { news, pending } = this.props;
+    const { info, pending } = this.props;
 
     return (
       <>
         {pending ? (
-          <div className="board-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
+          <Spinner />
         ) : (
           <>
-            <NewsBoard news={news} />
-            <button
-              className="board-info-form__btn-add"
-              onClick={this.handleForm}
-            >
-              +
-            </button>
-            <div
-              className={
-                this.state.openForm
-                  ? 'board-info-form board-info-form--open'
-                  : 'board-info-form board-info-form--close'
-              }
-            >
-              <form
-                className="board-info-form__content"
-                onSubmit={this.addInfo}
-              >
-                <button
-                  className="board-info-form__btn-close"
-                  onClick={this.handleForm}
-                >
-                  X
-                </button>
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.handleInputChange}
-                />
-                <label htmlFor="description">News description</label>
-                <textarea
-                  type="text"
-                  id="description"
-                  name="description"
-                  rows="10"
-                  value={this.state.description}
-                  onChange={this.handleInputChange}
-                />
-                <label htmlFor="name">Author Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
-                />
-                <label htmlFor="image">Image URL</label>
-                <input
-                  type="text"
-                  id="image"
-                  name="image"
-                  value={this.state.image}
-                  onChange={this.handleInputChange}
-                />
-                <button className="board-info-form__btn-submit" type="submit">
-                  Add news
-                </button>
-              </form>
-            </div>
+            <SelectCategory selectCategoryFn={this.selectCategory} />
+            <NewsBoard category={this.state.category} info={info} />
+            <FormBoard
+              openForm={this.state.openForm}
+              handleFormFn={this.handleForm}
+              handleChangeFn={this.handleChange}
+              addInfoFn={addInfo}
+            />
           </>
         )}
       </>
@@ -133,7 +80,7 @@ class InfoBoard extends React.Component {
 
 const mapStateToProps = (state) => ({
   error: getInfoError(state),
-  news: getInfo(state),
+  info: getInfo(state),
   pending: getInfoPending(state),
 });
 

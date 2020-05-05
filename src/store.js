@@ -7,7 +7,7 @@ const middlewares = [thunk];
 
 const initialState = {
   pending: false,
-  news: [],
+  info: [],
   error: null,
 };
 

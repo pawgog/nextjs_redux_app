@@ -16,7 +16,7 @@ const reducer = (state = [], action) => {
       return {
         ...state,
         pending: false,
-        news: action.payload,
+        info: action.payload,
       };
     case FETCH_INFO_ERROR:
       return {
@@ -29,7 +29,7 @@ const reducer = (state = [], action) => {
 
       return {
         ...state,
-        news: [...state.name, action.name],
+        info: [...state.name, action.name],
       };
     default:
       return state;
@@ -38,6 +38,6 @@ const reducer = (state = [], action) => {
 
 export default reducer;
 
-export const getInfo = (state) => state.news;
+export const getInfo = (state) => state.info;
 export const getInfoPending = (state) => state.pending;
 export const getInfoError = (state) => state.error;

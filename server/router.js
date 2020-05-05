@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-const news = require('./schema');
+const info = require('./schema');
 
 router.route('/').get((req, res) => {
-  news.find((error, data) => {
+  info.find((error, data) => {
     if (error) {
       return next(error);
     } else {
