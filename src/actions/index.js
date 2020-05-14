@@ -24,8 +24,20 @@ export const fetchInfo = () => {
 };
 
 export const addInfo = (info) => {
+  axios
+    .post('http://localhost:4001/info', info)
+    .then((res) => {
+      if (res.error) {
+        throw res.error;
+      }
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   return {
-    type: 'ADD_INFO',
+    type: ADD_INFO,
     payload: {
       item: {
         id: '',
@@ -52,5 +64,12 @@ function fetchInfoError(error) {
   return {
     type: FETCH_INFO_ERROR,
     error: error,
+  };
+}
+
+function addInfoSuccess(newInfo) {
+  return {
+    type: ADD_INFO,
+    payload: newInfo,
   };
 }

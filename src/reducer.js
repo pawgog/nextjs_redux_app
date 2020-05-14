@@ -25,11 +25,9 @@ const reducer = (state = [], action) => {
         error: action.error,
       };
     case ADD_INFO:
-      console.log(state, action);
-
       return {
         ...state,
-        info: [...state.name, action.name],
+        info: [...state, action.payload],
       };
     default:
       return state;

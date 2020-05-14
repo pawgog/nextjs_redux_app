@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useField, Form, Formik } from 'formik';
+import { addInfo } from '../src/actions/index';
 
-function FormBoard({ openForm, handleFormFn, handleChangeFn, addInfoFn }) {
-  const [infoForm, infoFormSet] = useState({
-    name: '',
-    title: '',
-    description: '',
-    category: '',
-    date: '',
-    image: '',
-  });
+function FormBoard({ openForm, handleFormFn }) {
+  const dispatch = useDispatch();
+  const InputField = ({ label, ...props }) => {
+    const [field] = useField(props);
+
+    return (
+      <>
+        {props.type === 'text' ? (
+          <label>
+            {label}
+            <input {...field} {...props} />
+          </label>
+        ) : (
+          <label>
+            {label}
+            <select {...field} {...props}>
+              <option hidden>Select:</option>
+              <option value="news">News</option>
+              <option value="world">World</option>
+              <option value="business">Business</option>
+              <option value="sport">Sport</option>
+            </select>
+          </label>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
@@ -22,69 +43,44 @@ function FormBoard({ openForm, handleFormFn, handleChangeFn, addInfoFn }) {
             : 'board-info-form board-info-form--close'
         }
       >
-        <form className="board-info-form__content" onSubmit={addInfoFn}>
-          <button className="board-info-form__btn-close" onClick={handleFormFn}>
-            X
-          </button>
-          <label htmlFor="title">
-            Title
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={infoForm.title}
-              onChange={handleChangeFn}
-            />
-          </label>
-          <label htmlFor="description">
-            Info description
-            <textarea
-              type="text"
-              id="description"
-              name="description"
-              rows="10"
-              value={infoForm.description}
-              onChange={handleChangeFn}
-            />
-          </label>
-          <label htmlFor="name">
-            Author Name
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={infoForm.name}
-              onChange={handleChangeFn}
-            />
-          </label>
-          <label htmlFor="category">
-            Info category
-            <select
-              id="category"
-              name="category"
-              value={infoForm.category}
-              onChange={handleChangeFn}
+        <Formik
+          initialValues={{
+            name: '',
+            title: '',
+            description: '',
+            category: '',
+            date: Date(),
+            image: '',
+          }}
+          onSubmit={(values, actions) => {
+            dispatch(addInfo(values));
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          <Form className="board-info-form__content">
+            <button
+              className="board-info-form__btn-close"
+              onClick={handleFormFn}
             >
-              <option value="news">News</option>
-              <option value="world">World</option>
-              <option value="business">Business</option>
-              <option value="sport">Sport</option>
-            </select>
-          </label>
-          <label htmlFor="image">
-            Image URL
-            <input
+              X
+            </button>
+            <InputField name="title" type="text" label="Title" />
+            <InputField
+              name="description"
               type="text"
-              id="image"
-              name="image"
-              value={infoForm.image}
-              onChange={handleChangeFn}
+              label="Info description"
             />
-          </label>
-          <button className="board-info-form__btn-submit" type="submit">
-            Add info
-          </button>
-        </form>
+            <InputField name="name" type="text" label="Author name" />
+            <InputField name="category" type="select" label="Info category" />
+            <InputField name="image" type="text" label="Image URL" />
+            <button className="board-info-form__btn-submit" type="submit">
+              Add info
+            </button>
+          </Form>
+        </Formik>
       </div>
     </>
   );

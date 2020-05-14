@@ -10,12 +10,7 @@ import NewsBoard from './newsBoard';
 
 class InfoBoard extends React.Component {
   state = {
-    name: '',
-    title: '',
-    description: '',
     category: 'all',
-    date: '',
-    image: '',
     openForm: false,
   };
 
@@ -31,26 +26,9 @@ class InfoBoard extends React.Component {
     }));
   };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
   selectCategory = (category) => {
     this.setState({
       category,
-    });
-  };
-
-  addInfo = (e) => {
-    e.preventDefault();
-    this.props.addInfo({
-      name: this.state.name,
-      title: this.state.title,
-      description: this.state.description,
-      date: Date(),
-      image: this.state.image,
     });
   };
 
@@ -68,8 +46,6 @@ class InfoBoard extends React.Component {
             <FormBoard
               openForm={this.state.openForm}
               handleFormFn={this.handleForm}
-              handleChangeFn={this.handleChange}
-              addInfoFn={addInfo}
             />
           </>
         )}

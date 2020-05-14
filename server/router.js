@@ -14,4 +14,15 @@ router.route('/').get((req, res) => {
   });
 });
 
+router.route('/info').post((req, res, next) => {
+  info.create(req.body, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      // console.log(data);
+      res.json(data);
+    }
+  });
+});
+
 module.exports = router;

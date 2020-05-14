@@ -4,7 +4,7 @@ function SelectCategory({ selectCategoryFn }) {
   const [category, selectCategory] = useState();
 
   return (
-    <label htmlFor="category">
+    <label className="board-info-form__category" htmlFor="category">
       Category:
       <select
         id="category"
