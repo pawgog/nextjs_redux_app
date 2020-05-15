@@ -3,6 +3,7 @@ import {
   FETCH_INFO_SUCCESS,
   FETCH_INFO_ERROR,
   ADD_INFO,
+  DELETE_INFO,
 } from './actions';
 
 const reducer = (state = [], action) => {
@@ -28,6 +29,11 @@ const reducer = (state = [], action) => {
       return {
         ...state,
         info: [...state, action.payload],
+      };
+    case DELETE_INFO:
+      return {
+        ...state,
+        info: state.info.filter((item, index) => index !== action.payload),
       };
     default:
       return state;

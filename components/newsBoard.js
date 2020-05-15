@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as moment from 'moment';
+import { deleteInfoAction } from '../src/actions/index';
 
 function NewsBoard({ info, category }) {
   const dispatch = useDispatch();
 
   const deleteInfo = (id) => {
-    console.log(id);
+    dispatch(deleteInfoAction(id));
   };
 
   return (

@@ -8,27 +8,43 @@ function FormBoard({ openForm, handleFormFn }) {
   const InputField = ({ label, ...props }) => {
     const [field] = useField(props);
 
-    return (
-      <>
-        {props.type === 'text' ? (
-          <label>
-            {label}
-            <input {...field} {...props} />
-          </label>
-        ) : (
-          <label>
-            {label}
-            <select {...field} {...props}>
-              <option hidden>Select:</option>
-              <option value="news">News</option>
-              <option value="world">World</option>
-              <option value="business">Business</option>
-              <option value="sport">Sport</option>
-            </select>
-          </label>
-        )}
-      </>
-    );
+    switch (props.type) {
+      case 'text':
+        return (
+          <>
+            <label>
+              {label}
+              <input {...field} {...props} />
+            </label>
+          </>
+        );
+      case 'textarea':
+        return (
+          <>
+            <label>
+              {label}
+              <textarea {...field} {...props} />
+            </label>
+          </>
+        );
+      case 'select':
+        return (
+          <>
+            <label>
+              {label}
+              <select {...field} {...props}>
+                <option hidden>Select:</option>
+                <option value="news">News</option>
+                <option value="world">World</option>
+                <option value="business">Business</option>
+                <option value="sport">Sport</option>
+              </select>
+            </label>
+          </>
+        );
+      default:
+        break;
+    }
   };
 
   return (
@@ -54,10 +70,6 @@ function FormBoard({ openForm, handleFormFn }) {
           }}
           onSubmit={(values, actions) => {
             dispatch(addInfo(values));
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 1000);
           }}
         >
           <Form className="board-info-form__content">
@@ -70,8 +82,9 @@ function FormBoard({ openForm, handleFormFn }) {
             <InputField name="title" type="text" label="Title" />
             <InputField
               name="description"
-              type="text"
+              type="textarea"
               label="Info description"
+              rows="4"
             />
             <InputField name="name" type="text" label="Author name" />
             <InputField name="category" type="select" label="Info category" />

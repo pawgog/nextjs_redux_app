@@ -4,12 +4,13 @@ export const FETCH_INFO_PENDING = 'FETCH_INFO_PENDING';
 export const FETCH_INFO_SUCCESS = 'FETCH_INFO_SUCCESS';
 export const FETCH_INFO_ERROR = 'FETCH_INFO_ERROR';
 export const ADD_INFO = 'ADD_INFO';
+export const DELETE_INFO = 'DELETE_INFO';
 
 export const fetchInfo = () => {
   return (dispatch) => {
     dispatch(fetchInfoPending());
     axios
-      .get('http://localhost:4001/')
+      .get('http://localhost:4001/info')
       .then((res) => {
         if (res.error) {
           throw res.error;
@@ -38,12 +39,25 @@ export const addInfo = (info) => {
 
   return {
     type: ADD_INFO,
-    payload: {
-      item: {
-        id: '',
-        ...info,
-      },
-    },
+  };
+};
+
+export const deleteInfoAction = (id) => {
+  axios
+    .delete('http://localhost:4001/info/' + id)
+    .then((res) => {
+      if (res.error) {
+        throw res.error;
+      }
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return {
+    type: DELETE_INFO,
+    payload: id,
   };
 };
 
@@ -64,12 +78,5 @@ function fetchInfoError(error) {
   return {
     type: FETCH_INFO_ERROR,
     error: error,
-  };
-}
-
-function addInfoSuccess(newInfo) {
-  return {
-    type: ADD_INFO,
-    payload: newInfo,
   };
 }

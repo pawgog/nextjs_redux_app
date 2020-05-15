@@ -4,7 +4,7 @@ const router = express.Router();
 
 const info = require('./schema');
 
-router.route('/').get((req, res) => {
+router.route('/info').get((req, res) => {
   info.find((error, data) => {
     if (error) {
       return next(error);
@@ -21,6 +21,20 @@ router.route('/info').post((req, res, next) => {
     } else {
       // console.log(data);
       res.json(data);
+    }
+  });
+});
+
+router.route('/info/:id').delete((req, res, next) => {
+  console.log(req.params.id);
+
+  info.findByIdAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data,
+      });
     }
   });
 });
