@@ -33,7 +33,7 @@ const reducer = (state = [], action) => {
     case DELETE_INFO:
       return {
         ...state,
-        info: state.info.filter((item, index) => index !== action.payload),
+        info: state.info.filter((item) => item._id !== action.payload),
       };
     default:
       return state;
