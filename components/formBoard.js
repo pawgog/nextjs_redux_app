@@ -1,10 +1,23 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useField, Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { addInfo } from '../src/actions/index';
 
 function FormBoard({ openForm, handleFormFn }) {
   const dispatch = useDispatch();
+
+  const ValidateInfoForm = Yup.object().shape({
+    title: Yup.string()
+      .min(2, 'Title is too short!')
+      .required('Title should not be empty'),
+    description: Yup.string().required('Info description should not be empty'),
+    name: Yup.string()
+      .email('Invalid email')
+      .required('Author name should not be empty'),
+    image: Yup.string().required('Image url should not be empty'),
+  });
+
   const InputField = ({ label, ...props }) => {
     const [field] = useField(props);
 
@@ -68,32 +81,41 @@ function FormBoard({ openForm, handleFormFn }) {
             date: Date(),
             image: '',
           }}
+          validationSchema={ValidateInfoForm}
           onSubmit={(values) => {
             handleFormFn();
             dispatch(addInfo(values));
           }}
         >
-          <Form className="board-info-form__content">
-            <button
-              className="board-info-form__btn-close"
-              onClick={handleFormFn}
-            >
-              X
-            </button>
-            <InputField name="title" type="text" label="Title" />
-            <InputField
-              name="description"
-              type="textarea"
-              label="Info description"
-              rows="4"
-            />
-            <InputField name="name" type="text" label="Author name" />
-            <InputField name="category" type="select" label="Info category" />
-            <InputField name="image" type="text" label="Image URL" />
-            <button className="board-info-form__btn-submit" type="submit">
-              Add info
-            </button>
-          </Form>
+          {({ errors, touched }) => (
+            <Form className="board-info-form__content">
+              <button
+                className="board-info-form__btn-close"
+                onClick={handleFormFn}
+              >
+                X
+              </button>
+              <InputField name="title" type="text" label="Title" />
+              {errors.title && touched.title ? <div>{errors.title}</div> : null}
+              <InputField
+                name="description"
+                type="textarea"
+                label="Info description"
+                rows="4"
+              />
+              {errors.description && touched.description ? (
+                <div>{errors.description}</div>
+              ) : null}
+              <InputField name="name" type="text" label="Author name" />
+              {errors.name && touched.name ? <div>{errors.name}</div> : null}
+              <InputField name="category" type="select" label="Info category" />
+              <InputField name="image" type="text" label="Image URL" />
+              {errors.image && touched.image ? <div>{errors.image}</div> : null}
+              <button className="board-info-form__btn-submit" type="submit">
+                Add info
+              </button>
+            </Form>
+          )}
         </Formik>
       </div>
     </>
