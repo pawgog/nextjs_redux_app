@@ -19,8 +19,7 @@ class InfoBoard extends React.Component {
     fetchInfo();
   }
 
-  handleForm = (e) => {
-    e.preventDefault();
+  handleForm = () => {
     this.setState((prevState) => ({
       openForm: !prevState.openForm,
     }));

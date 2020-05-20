@@ -68,7 +68,8 @@ function FormBoard({ openForm, handleFormFn }) {
             date: Date(),
             image: '',
           }}
-          onSubmit={(values, actions) => {
+          onSubmit={(values) => {
+            handleFormFn();
             dispatch(addInfo(values));
           }}
         >

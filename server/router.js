@@ -26,8 +26,6 @@ router.route('/info').post((req, res, next) => {
 });
 
 router.route('/info/:id').delete((req, res, next) => {
-  console.log(req.params.id);
-
   info.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);

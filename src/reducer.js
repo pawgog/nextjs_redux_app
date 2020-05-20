@@ -27,8 +27,7 @@ const reducer = (state = [], action) => {
       };
     case ADD_INFO:
       return {
-        ...state,
-        info: [...state, action.payload],
+        info: [...state.info, action.payload],
       };
     case DELETE_INFO:
       return {

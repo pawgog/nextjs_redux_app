@@ -25,20 +25,21 @@ export const fetchInfo = () => {
 };
 
 export const addInfo = (info) => {
-  axios
-    .post('http://localhost:4001/info', info)
-    .then((res) => {
-      if (res.error) {
-        throw res.error;
-      }
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  return {
-    type: ADD_INFO,
+  return (dispatch) => {
+    axios
+      .post('http://localhost:4001/info', info)
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
+        }
+        return res.data;
+      })
+      .then((res) => {
+        dispatch(addInfoSuccess(res));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -78,5 +79,12 @@ function fetchInfoError(error) {
   return {
     type: FETCH_INFO_ERROR,
     error: error,
+  };
+}
+
+function addInfoSuccess(info) {
+  return {
+    type: ADD_INFO,
+    payload: info,
   };
 }
