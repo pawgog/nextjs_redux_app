@@ -59,6 +59,11 @@
       select {
         width: 90%;
       }
+
+      &__error-message {
+        font-size: 0.8rem;
+        color: #f80000;
+      }
     }
     &__btn-add {
       display: block;

@@ -10,12 +10,11 @@ function FormBoard({ openForm, handleFormFn }) {
   const ValidateInfoForm = Yup.object().shape({
     title: Yup.string()
       .min(2, 'Title is too short!')
-      .required('Title should not be empty'),
-    description: Yup.string().required('Info description should not be empty'),
-    name: Yup.string()
-      .email('Invalid email')
-      .required('Author name should not be empty'),
-    image: Yup.string().required('Image url should not be empty'),
+      .required('Title is mandatory'),
+    description: Yup.string().required('Info description is mandatory'),
+    name: Yup.string().required('Author name is mandatory'),
+    category: Yup.string().required('Category should be selected'),
+    image: Yup.string().required('Image url is mandatory'),
   });
 
   const InputField = ({ label, ...props }) => {
@@ -82,9 +81,10 @@ function FormBoard({ openForm, handleFormFn }) {
             image: '',
           }}
           validationSchema={ValidateInfoForm}
-          onSubmit={(values) => {
+          onSubmit={async (values, { resetForm }) => {
             handleFormFn();
-            dispatch(addInfo(values));
+            await dispatch(addInfo(values));
+            resetForm();
           }}
         >
           {({ errors, touched }) => (
@@ -96,7 +96,11 @@ function FormBoard({ openForm, handleFormFn }) {
                 X
               </button>
               <InputField name="title" type="text" label="Title" />
-              {errors.title && touched.title ? <div>{errors.title}</div> : null}
+              {errors.title && touched.title ? (
+                <div className="board-info-form__content__error-message">
+                  {errors.title}
+                </div>
+              ) : null}
               <InputField
                 name="description"
                 type="textarea"
@@ -104,13 +108,28 @@ function FormBoard({ openForm, handleFormFn }) {
                 rows="4"
               />
               {errors.description && touched.description ? (
-                <div>{errors.description}</div>
+                <div className="board-info-form__content__error-message">
+                  {errors.description}
+                </div>
               ) : null}
               <InputField name="name" type="text" label="Author name" />
-              {errors.name && touched.name ? <div>{errors.name}</div> : null}
+              {errors.name && touched.name ? (
+                <div className="board-info-form__content__error-message">
+                  {errors.name}
+                </div>
+              ) : null}
               <InputField name="category" type="select" label="Info category" />
+              {touched.category ? (
+                <div className="board-info-form__content__error-message">
+                  {errors.category}
+                </div>
+              ) : null}
               <InputField name="image" type="text" label="Image URL" />
-              {errors.image && touched.image ? <div>{errors.image}</div> : null}
+              {errors.image && touched.image ? (
+                <div className="board-info-form__content__error-message">
+                  {errors.image}
+                </div>
+              ) : null}
               <button className="board-info-form__btn-submit" type="submit">
                 Add info
               </button>
