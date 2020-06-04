@@ -1,6 +1,7 @@
 # Next.js application with redux.
 
-Add new item to list name.
+Application created in React with Redux and Next.js in which is displaying list of articles depend on category.
+Database is in MongoDB. Adding new article and validation form is with Formik.
 
 ### Instalation
 
